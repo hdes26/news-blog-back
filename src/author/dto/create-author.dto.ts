@@ -3,9 +3,6 @@ import { IsString } from 'class-validator';
 
 export class CreateAuthorDto {
   @ApiProperty()
-  readonly id?: number;
-
-  @ApiProperty()
   @IsString({
     message: 'name should be string',
   })

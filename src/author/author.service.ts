@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Author } from './entities/author.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthorService {
-  create(createAuthorDto: CreateAuthorDto) {
-    return 'This action adds a new author';
+  constructor(
+    @InjectRepository(Author) private authorRepo: Repository<Author>,
+  ) {}
+  async create(createAuthorDto: CreateAuthorDto) {
+    return await this.authorRepo.save(createAuthorDto);
   }
 
-  findAll() {
-    return `This action returns all author`;
+  async findAll() {
+    const users = await this.authorRepo.find();
+    if (users.length === 0) {
+      throw new NotFoundException('no registered users!');
+    }
+    return users;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  async findOne(id: number) {
+    const user = await this.authorRepo.findOneByOrFail({ id });
+    return user;
   }
 
-  update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return `This action updates a #${id} author`;
+  async update(id: number, updateAuthorDto: UpdateAuthorDto) {
+    const user = await this.authorRepo.findOneByOrFail({ id });
+    return await this.authorRepo.update({ id: user.id }, updateAuthorDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+  async remove(id: number) {
+    const user = await this.authorRepo.findOneByOrFail({ id });
+    return await this.authorRepo.delete({ id: user.id });
   }
 }
