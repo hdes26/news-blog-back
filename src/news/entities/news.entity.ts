@@ -6,6 +6,8 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { Label } from './label.entity';
+import { Category } from './category.entity';
 
 @Entity('news')
 export class News {
@@ -21,9 +23,21 @@ export class News {
   @Column({ type: 'timestamptz', default: new Date() })
   news_date: Date;
 
-  @ManyToOne(() => Author, (user) => user, {
+  @ManyToOne(() => Author, (author) => author, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'author' })
   author: Author;
+
+  @ManyToOne(() => Label, (label) => label, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'label' })
+  label: Label;
+
+  @ManyToOne(() => Category, (category) => category, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'category' })
+  category: Category;
 }
