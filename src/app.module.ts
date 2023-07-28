@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthorModule } from './author/author.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NewsModule } from './news/news.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   controllers: [AppController],
@@ -28,6 +29,7 @@ import { NewsModule } from './news/news.module';
     }),
     AuthorModule,
     NewsModule,
+    CommentsModule,
   ],
 })
 export class AppModule {}

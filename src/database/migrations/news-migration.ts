@@ -11,7 +11,7 @@ export class Migration1690503993836 implements MigrationInterface {
       `CREATE TABLE "category" ("id" SERIAL NOT NULL, "name" character varying(255) NOT NULL, "description" character varying(255) NOT NULL, CONSTRAINT "PK_9c4e4a89e3674fc9f382d733f03" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "news" ("id" SERIAL NOT NULL, "title" character varying(255) NOT NULL, "content" character varying(255) NOT NULL, "news_date" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT '"2023-07-28T00:26:36.227Z"', "author" integer, "label" integer, "category" integer, CONSTRAINT "PK_39a43dfcb6007180f04aff2357e" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "news" ("id" SERIAL NOT NULL, "title" character varying(255) NOT NULL, "content" character varying(255) NOT NULL, "news_date" TIMESTAMP NOT NULL DEFAULT now(), "author" integer, "label" integer, "category" integer, CONSTRAINT "PK_39a43dfcb6007180f04aff2357e" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `ALTER TABLE "news" ADD CONSTRAINT "FK_2b25d3952694bca90d83e2342bd" FOREIGN KEY ("author") REFERENCES "author"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,

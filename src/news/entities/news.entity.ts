@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Label } from './label.entity';
 import { Category } from './category.entity';
@@ -20,7 +21,7 @@ export class News {
   @Column({ length: 255 })
   content: string;
 
-  @Column({ type: 'timestamptz', default: new Date() })
+  @CreateDateColumn()
   news_date: Date;
 
   @ManyToOne(() => Author, (author) => author, {
