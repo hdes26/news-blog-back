@@ -22,7 +22,7 @@ export class CommentsService {
       id: createCommentDto.authorId,
     });
 
-    return await this.newsRepo.save({
+    return await this.commentRepo.save({
       author: authorFound,
       news: newsFound,
       ...createCommentDto,
