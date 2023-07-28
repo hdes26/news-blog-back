@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { AuthorModule } from './author/author.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { NewsModule } from './news/news.module';
 
 @Module({
   controllers: [AppController],
@@ -26,6 +27,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       retryAttempts: 10,
     }),
     AuthorModule,
+    NewsModule,
   ],
 })
 export class AppModule {}
