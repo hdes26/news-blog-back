@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Migration1690503993836 implements MigrationInterface {
-  name = 'Migration1690503993836';
+export class Migration1690553656773 implements MigrationInterface {
+  name = 'Migration1690553656773';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -22,9 +22,15 @@ export class Migration1690503993836 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "news" ADD CONSTRAINT "FK_2e612e944ee6d20447876ca04a1" FOREIGN KEY ("category") REFERENCES "category"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
     );
+    await queryRunner.query(
+      `ALTER TABLE "comment" ADD CONSTRAINT "FK_2891d412a4c04124f07973d39ce" FOREIGN KEY ("news") REFERENCES "news"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `ALTER TABLE "comment" DROP CONSTRAINT "FK_2891d412a4c04124f07973d39ce"`,
+    );
     await queryRunner.query(
       `ALTER TABLE "news" DROP CONSTRAINT "FK_2e612e944ee6d20447876ca04a1"`,
     );
