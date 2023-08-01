@@ -6,14 +6,21 @@ import { AuthorModule } from './author/author.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NewsModule } from './news/news.module';
 import { CommentsModule } from './comments/comments.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+import { AccessTokenStrategy } from './utils/strategies/jwt';
 
 @Module({
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AccessTokenStrategy],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    {
+      ...JwtModule.register({}),
+      global: true,
+    },
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -30,6 +37,7 @@ import { CommentsModule } from './comments/comments.module';
     AuthorModule,
     NewsModule,
     CommentsModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

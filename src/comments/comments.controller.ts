@@ -6,16 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { AccessTokenGuard } from 'src/utils/guards/jwt';
 
 @ApiTags('comments')
 @Controller('comments')
@@ -24,6 +27,8 @@ export class CommentsController {
   @ApiOkResponse({ description: 'create a comment' })
   @ApiBadRequestResponse({ description: 'missing parameters or wrong type' })
   @ApiNotFoundResponse({ description: 'comment not found' })
+  @UseGuards(AccessTokenGuard)
+  @ApiBearerAuth()
   @Post()
   async create(@Body() createCommentDto: CreateCommentDto) {
     return await this.commentsService.create(createCommentDto);
@@ -37,6 +42,8 @@ export class CommentsController {
   }
   @ApiOkResponse({ description: 'return a comment' })
   @ApiNotFoundResponse({ description: 'comment not found' })
+  @UseGuards(AccessTokenGuard)
+  @ApiBearerAuth()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.commentsService.findOne(+id);
@@ -44,6 +51,8 @@ export class CommentsController {
   @ApiOkResponse({ description: 'modify a comment' })
   @ApiBadRequestResponse({ description: 'missing parameters or wrong type' })
   @ApiNotFoundResponse({ description: 'comment not found' })
+  @UseGuards(AccessTokenGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -53,6 +62,8 @@ export class CommentsController {
   }
   @ApiOkResponse({ description: 'remove a comment' })
   @ApiNotFoundResponse({ description: 'comment not found' })
+  @UseGuards(AccessTokenGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.commentsService.remove(+id);

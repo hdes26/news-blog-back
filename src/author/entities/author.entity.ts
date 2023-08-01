@@ -10,4 +10,7 @@ export class Author {
 
   @Column({ length: 50 })
   email: string;
+
+  @Column({ length: 50 })
+  password: string;
 }
