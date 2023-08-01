@@ -12,6 +12,12 @@ export class AuthorService {
     @InjectRepository(Author) private authorRepo: Repository<Author>,
   ) {}
   async create(createAuthorDto: CreateAuthorDto) {
+    const emailFound = await this.authorRepo.findOne({
+      where: { email: createAuthorDto.email },
+    });
+    if (emailFound) {
+      throw new NotFoundException('Email already exist');
+    }
     return await this.authorRepo.save({
       ...createAuthorDto,
       password: encryptPassword(createAuthorDto.password),

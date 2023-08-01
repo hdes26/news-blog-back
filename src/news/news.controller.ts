@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
@@ -30,8 +31,12 @@ export class NewsController {
   @UseGuards(AccessTokenGuard)
   @ApiBearerAuth()
   @Post()
-  async create(@Body() createNewsDto: CreateNewsDto) {
-    return await this.newsService.create(createNewsDto);
+  async create(
+    @Body() createNewsDto: CreateNewsDto,
+    @Request()
+    { user }: { user: { id: number; name: string; iat: Date; exp: Date } },
+  ) {
+    return await this.newsService.create(user.id, createNewsDto);
   }
   @ApiOkResponse({ description: 'return all the news' })
   @ApiBadRequestResponse({ description: 'missing parameters or wrong type' })
@@ -42,8 +47,6 @@ export class NewsController {
   }
   @ApiOkResponse({ description: 'return a news' })
   @ApiNotFoundResponse({ description: 'news not found' })
-  @UseGuards(AccessTokenGuard)
-  @ApiBearerAuth()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.newsService.findOne(+id);

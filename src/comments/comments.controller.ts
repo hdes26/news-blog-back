@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -30,8 +31,12 @@ export class CommentsController {
   @UseGuards(AccessTokenGuard)
   @ApiBearerAuth()
   @Post()
-  async create(@Body() createCommentDto: CreateCommentDto) {
-    return await this.commentsService.create(createCommentDto);
+  async create(
+    @Body() createCommentDto: CreateCommentDto,
+    @Request()
+    { user }: { user: { id: number; name: string; iat: Date; exp: Date } },
+  ) {
+    return await this.commentsService.create(user.id, createCommentDto);
   }
   @ApiOkResponse({ description: 'return all the comments' })
   @ApiBadRequestResponse({ description: 'missing parameters or wrong type' })

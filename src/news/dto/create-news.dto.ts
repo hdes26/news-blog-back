@@ -22,8 +22,5 @@ export class CreateNewsDto {
   labelId: number;
   @ApiProperty({ example: 1 })
   @IsNumber()
-  authorId: number;
-  @ApiProperty({ example: 1 })
-  @IsNumber()
   categoryId: number;
 }
