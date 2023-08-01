@@ -16,9 +16,9 @@ export class NewsService {
     @InjectRepository(Label) private labelRepo: Repository<Label>,
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
   ) {}
-  async create(createNewsDto: CreateNewsDto) {
+  async create(authorId: number, createNewsDto: CreateNewsDto) {
     const authorFound = await this.authorRepo.findOneByOrFail({
-      id: createNewsDto.authorId,
+      id: authorId,
     });
     const labelFound = await this.labelRepo.findOneByOrFail({
       id: createNewsDto.labelId,

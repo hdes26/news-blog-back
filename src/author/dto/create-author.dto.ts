@@ -13,4 +13,9 @@ export class CreateAuthorDto {
     message: 'email should be string',
   })
   email: string;
+  @ApiProperty()
+  @IsString({
+    message: 'password should be string',
+  })
+  password: string;
 }

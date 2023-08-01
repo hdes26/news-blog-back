@@ -4,6 +4,7 @@ import { UpdateAuthorDto } from './dto/update-author.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Author } from './entities/author.entity';
 import { Repository } from 'typeorm';
+import { encryptPassword } from 'src/utils/functions';
 
 @Injectable()
 export class AuthorService {
@@ -11,7 +12,16 @@ export class AuthorService {
     @InjectRepository(Author) private authorRepo: Repository<Author>,
   ) {}
   async create(createAuthorDto: CreateAuthorDto) {
-    return await this.authorRepo.save(createAuthorDto);
+    const emailFound = await this.authorRepo.findOne({
+      where: { email: createAuthorDto.email },
+    });
+    if (emailFound) {
+      throw new NotFoundException('Email already exist');
+    }
+    return await this.authorRepo.save({
+      ...createAuthorDto,
+      password: encryptPassword(createAuthorDto.password),
+    });
   }
 
   async findAll() {

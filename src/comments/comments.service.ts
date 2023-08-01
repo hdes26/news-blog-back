@@ -14,12 +14,12 @@ export class CommentsService {
     @InjectRepository(News) private newsRepo: Repository<News>,
     @InjectRepository(Author) private authorRepo: Repository<Author>,
   ) {}
-  async create(createCommentDto: CreateCommentDto) {
+  async create(authorId: number, createCommentDto: CreateCommentDto) {
     const newsFound = await this.newsRepo.findOneByOrFail({
       id: createCommentDto.newsId,
     });
     const authorFound = await this.authorRepo.findOneByOrFail({
-      id: createCommentDto.authorId,
+      id: authorId,
     });
 
     return await this.commentRepo.save({

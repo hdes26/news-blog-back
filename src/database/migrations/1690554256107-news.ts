@@ -16,9 +16,9 @@ export class news1690554256107 implements MigrationInterface {
     await queryRunner.query(
       `INSERT INTO label (name, description)
       VALUES
-          ('Política', 'Últimas noticias políticas y eventos globales.'),
-          ('Tecnología', 'Avances tecnológicos e innovaciones del mundo digital.'),
-          ('Salud', 'Información relevante sobre bienestar y medicina.');`,
+          ('important', 'Noticia importante.'),
+          ('warning', 'Lo ultimo en noticias.'),
+          ('regular', 'Noticias normal');`,
     );
     await queryRunner.query(
       `INSERT INTO category (name, description)

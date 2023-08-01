@@ -22,6 +22,7 @@ async function bootstrap() {
     .setDescription(
       'Prueba tecnica para la vacante de fullstack developer en TorneosGG',
     )
+    .addBearerAuth()
     .setVersion('0.0.1')
     .build();
   const document = SwaggerModule.createDocument(app, options);

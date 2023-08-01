@@ -11,7 +11,4 @@ export class CreateCommentDto {
   @ApiProperty({ example: 1 })
   @IsNumber()
   newsId: number;
-  @ApiProperty({ example: 1 })
-  @IsNumber()
-  authorId: number;
 }
